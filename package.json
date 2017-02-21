@@ -1,0 +1,18 @@
+{
+  "name": "ToDoListVanillaJSLevadaDenys",
+  "version": "1.0.0",
+  "description": "Todo List Assignment",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Levada Denys",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "3.5.0",
+    "mocha": "3.2.0"
+  }
+}

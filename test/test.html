@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing to do list </title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="./../node_modules/mocha/mocha.css">
+        <script src="./../node_modules/mocha/mocha.js"></script>
+        <script>
+            mocha.setup('bdd');
+        </script>
+
+        <script src="./../node_modules/chai/chai.js"></script>
+        <script>
+            let assert = chai.assert;
+        </script>
+
+        <link rel = 'stylesheet' href = './test.css'/>
+    </head>
+
+    <body>
+        <div id = 'main'></div>        
+        <script src='./../app/app.js'></script>
+
+        <script src="./test.js"></script>
+
+        <div id="mocha"></div>
+
+
+        <div id = 'toDoListTest'></div>
+        <script>
+            mocha.run();
+        </script>
+    </body>
+</html>

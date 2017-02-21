@@ -1,0 +1,94 @@
+#toDoListContainer {
+    display: table;
+    padding: 10px;
+    background: coral;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#addTaskField {
+    position: relative;
+}
+#toDoListContainer textarea {
+    resize: none;
+    border-radius: 5px;
+    outline: none;
+}
+#addTaskTextarea {
+    width: 75%;
+}
+
+#addTaskBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 5px;
+}
+
+#listOfTasks {
+    position: relative;
+    min-height: 100px;
+    background: orange;
+    border-radius: 5px;
+    padding: 5px;
+    word-break: break-all;
+}
+
+.task {
+    position: relative;
+    margin-top: 7px;    
+}
+
+.task * {
+    display: inline-block;
+}
+
+.task p {
+    padding: 5px;
+}
+.editTaskTextarea {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.unFinishedTaskText {   
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.doneBtn {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+}
+
+
+
+.cancelEditBtn {
+    float: right;
+}
+
+.task:hover {
+    background: lightgoldenrodyellow;
+    backface-visibility: 0.5;
+    border-radius: 5px;    
+}
+
+.task:hover .doneBtn {
+    display: inline-block;
+}
+
+.finishedTaskText {
+    text-decoration: line-through;
+}
+
+#addTaskField * {
+    display: inline-block;
+}
