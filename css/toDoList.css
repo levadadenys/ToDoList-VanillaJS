@@ -1,22 +1,25 @@
-#toDoListContainer {
-    display: table;
+#addTaskField {
+    position: relative;
     padding: 10px;
-    background: coral;
-    border-radius: 5px;
+}
+
+#addTaskTextarea {
+    width: 85%;
+}
+
+#addTaskField form {
     width: 100%;
 }
 
-#addTaskField {
-    position: relative;
+#addTaskField form * {
+    width: 100%;
 }
+
 #toDoListContainer textarea {
     resize: none;
-    border-radius: 5px;
     outline: none;
 }
-#addTaskTextarea {
-    width: 75%;
-}
+
 
 #addTaskBtn {
     position: absolute;
@@ -24,15 +27,17 @@
     right: 0;
     bottom: 0;
     margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 #listOfTasks {
     position: relative;
     min-height: 100px;
-    background: orange;
-    border-radius: 5px;
-    padding: 5px;
     word-break: break-all;
+}
+
+#listOfTasks table {
+    width: 100%;
 }
 
 .task {
@@ -42,11 +47,21 @@
 
 .task * {
     display: inline-block;
+    word-break: break-all;
+}
+
+.task form{
+    display: block;
 }
 
 .task p {
-    padding: 5px;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    float: left;
+    text-align: left;
 }
+
 .editTaskTextarea {
     width: 100%;
     -webkit-box-sizing: border-box;
@@ -64,21 +79,17 @@
 
 .doneBtn {
     display: none;
-    position: absolute;
-    right: 0;
-    bottom: -5px;
-}
-
-
-
-.cancelEditBtn {
     float: right;
 }
 
-.task:hover {
-    background: lightgoldenrodyellow;
-    backface-visibility: 0.5;
-    border-radius: 5px;    
+.saveEditBtn {
+    position: absolute;
+    bottom: 12px;
+    left: 24px;
+}
+
+.cancelEditBtn {
+    float: right;
 }
 
 .task:hover .doneBtn {

@@ -2,19 +2,14 @@ class ToDoList {
     constructor (parentId) {
         this.tasks = [];
 
-        //This is a tasks data template.
-        //You can uncomment it and ToDoList will be initiated with them.
+        /////This is a tasks data template.
+        /////You can uncomment it and ToDoList will be initiated with them. 
 
         // this.tasks = [
         //     {
         //         id : 0,
         //         status : "unFinished",
-        //         value : `Just some veeeeeeeeeeeeeeeeeeeeery long task
-        //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et massa maximus, pretium eros non, 
-        //         fringilla nisi. Pellentesque nec finibus ante. Etiam eu tellus quis ante lacinia bibendum quis congue sem. 
-        //         Fusce feugiat risus eu tincidunt pulvinar. Nunc finibus mi non est mollis consequat. Nulla varius molestie 
-        //         purus, et placerat quam interdum non. Nam non fermentum ex. Cras ut ex dignissim, semper lorem placerat, 
-        //         rutrum justo. Nullam ex felis, faucibus et interdum vitae, consequat vel tortor.`
+        //         value : `Just some veeeeeeeeeeeeeeeeeeeeery long task Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et massa maximus, pretium eros non, fringilla nisi. Pellentesque nec finibus ante. Etiam eu tellus quis ante lacinia bibendum quis congue sem. Fusce feugiat risus eu tincidunt pulvinar. Nunc finibus mi non est mollis consequat. Nulla varius molestie purus, et placerat quam interdum non. Nam non fermentum ex. Cras ut ex dignissim, semper lorem placerat, rutrum justo. Nullam ex felis, faucibus et interdum vitae, consequat vel tortor.`
         //     },
         //     {
         //         id : 1,
@@ -48,19 +43,44 @@ class ToDoList {
     initiateToDoList () {
         let container = document.createElement('div');
         container.id = 'toDoListContainer';
+        container.className = 'mdl-layout mdl-js-layout mdl-layout--fixed-header';
+        container.innerHTML = `
+        <header class="mdl-layout__header">
+
+        </header>
+        
+        <main class="mdl-layout__content">
+            <div class="page-content"></div>
+        </main>`;
         
         let addTaskField = document.createElement('div');
         addTaskField.id = 'addTaskField';
-        addTaskField.innerHTML = "<textarea id = 'addTaskTextarea'></textarea><button id = 'addTaskBtn'>Add</button></div>";
+        addTaskField.className = 'mdl-layout-title';
+        addTaskField.innerHTML = `
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+                <textarea id="addTaskTextarea" class="mdl-textfield__input" placeholder = 'Input your task here' type="text" rows= "3"></textarea>
+            </div>
+        </form>
+        <button id = 'addTaskBtn' class='mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab'>
+            <i class="material-icons">add</i>
+        </button>`;
 
         let listOfTasks = document.createElement('div');
         listOfTasks.id = 'listOfTasks';
+        listOfTasks.innerHTML = `
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <tbody id = 'tBodylistOfTasks'>
+                
+            </tbody>
+        </table>
+        `;
 
-        container.appendChild(addTaskField);
-        container.appendChild(listOfTasks);
+        container.querySelector(`.mdl-layout__header`).appendChild(addTaskField);
+        container.querySelector(`.page-content`).appendChild(listOfTasks);
         document.querySelector(this.parentId).appendChild(container);
 
-        document.getElementById('addTaskBtn').addEventListener('click', this.addNewTask);
+        document.querySelector(`${this.parentId} #addTaskBtn`).addEventListener('click', this.addNewTask);
     }
 
     addNewTask() {   
@@ -99,21 +119,25 @@ class ToDoList {
     }
 
     renderTasks() {
-        this.removeChildrenElements('listOfTasks');
+        this.removeChildrenElements('tBodylistOfTasks');
 
         for(let i = 0 ; i < this.tasks.length; i++) {
-            let task = document.createElement('div');
-            
+            let taskContainer = document.createElement('tr');
+            let task = document.createElement('td');
             task.id = `task${this.tasks[i].id}`;
             if (this.tasks[i].status === 'unFinished') {
                 task.className = 'task unFinished';
-                task.innerHTML = `<p class = 'unFinishedTaskText'>${this.tasks[i].value}</p><button class = 'doneBtn'>Done</button>`;
+                task.innerHTML = `
+                    <p class = 'unFinishedTaskText'>${this.tasks[i].value}</p>
+                    <button class = 'doneBtn mdl-button mdl-js-button mdl-button--icon'>
+                        <i class="material-icons">done</i>
+                    </button>`;
             } else if (this.tasks[i].status === 'Finished') {
                 task.className = 'task finished';
                 task.innerHTML = `<p class = 'finishedTaskText'>${this.tasks[i].value}</p>`;
             }
-            
-            document.querySelector(`${this.parentId} #listOfTasks`).appendChild(task);
+            taskContainer.appendChild(task)
+            document.querySelector(`${this.parentId} #listOfTasks tbody`).appendChild(taskContainer);
         }
 
         Array.from(document.querySelectorAll(`${this.parentId} .doneBtn`)).forEach((i) => i.addEventListener('click', this.markTaskAsDone));
@@ -125,7 +149,9 @@ class ToDoList {
     }
 
     markTaskAsDone(e) {
-        let chosenElementId = e.target.parentElement.id;
+        let chosenElementId;
+        if (e.target.tagName !== 'I') chosenElementId = e.target.parentElement.id;
+        else chosenElementId = e.target.parentElement.parentElement.id;
 
         this.tasks.forEach(i => {
             if (i.id == this.trimLettersFromid(chosenElementId)) i.status = 'Finished';
@@ -136,9 +162,15 @@ class ToDoList {
 
     editTask (e) {
         let chosenElementId = e.target.parentElement.id;
-        e.target.parentElement.innerHTML = `<textarea class = 'editTaskTextarea'>${
-            this.tasks.filter((i) => i.id == this.trimLettersFromid(chosenElementId))[0].value}</textarea>
-        <button class = 'saveEditBtn'>Save</button><button class = 'cancelEditBtn'>Cancel</button>`;
+        e.target.parentElement.innerHTML = `
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield" style = "width: 100%; float: left; padding-top: 0px;">
+                <textarea class="editTaskTextarea mdl-textfield__input" type="text" rows= "3">${this.tasks.filter((i) => i.id == this.trimLettersFromid(chosenElementId))[0].value}</textarea>
+            </div>
+        </form>
+        <button class = 'saveEditBtn mdl-button mdl-js-button mdl-button--primary'>Save</button>
+        <button class = 'cancelEditBtn mdl-button mdl-js-button mdl-button--primary'>Cancel</button>`;
+
         document.querySelector(`${this.parentId} #${chosenElementId} .saveEditBtn`).addEventListener('click', this.saveEdit);
         document.querySelector(`${this.parentId} #${chosenElementId} .cancelEditBtn`).addEventListener('click', this.cancelEdit);
     }
@@ -168,9 +200,13 @@ class ToDoList {
     }
 
     renderSpecificTask (taskId) {
-        document.querySelector(`${this.parentId} #${taskId}`).innerHTML = `<p class = 'unFinishedTaskText'>
-        ${this.tasks.filter((i) => i.id == this.trimLettersFromid(taskId))[0].value}</p>
-        <button class = 'doneBtn'>Done</button>`;
+        document.querySelector(`${this.parentId} #${taskId}`).innerHTML = `
+        <p class = 'unFinishedTaskText'>
+            ${this.tasks.filter((i) => i.id == this.trimLettersFromid(taskId))[0].value}
+        </p>
+        <button class = 'doneBtn mdl-button mdl-js-button mdl-button--icon'>
+            <i class="material-icons">done</i>
+        </button>`;
 
         document.querySelector(`${this.parentId} #${taskId} .doneBtn`).addEventListener('click', this.markTaskAsDone);
         document.querySelector(`${this.parentId} #${taskId} .unFinishedTaskText`).addEventListener('dblclick', this.editTask);
